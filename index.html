@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Title</title>
+</head>
+<style>
+    html,body{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom,#cad4e5,#dfd9e2);
+    }
+    .content{
+        width: 100%;
+        height: 100%;
+    }
+    .pic{
+        position: absolute;
+        left: 54px;
+        top: 70px;
+        width: 125px;
+        height: 150px;
+        background-image: url("static/img/pic1.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .text{
+        position: absolute;
+        font-size: 12px;
+        left: 111px;
+        top: 10px;
+        width: 81.25px;
+        height: 75px;
+        background-image: url("static/img/text.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    .text-info{
+        display: inline-block;
+        margin-top: 15px;
+        margin-left: 10px;
+        width: 60px;
+    }
+</style>
+<body>
+<!--<audio src="mp3/LoveStory.mp3" autoplay="autoplay">暂不支持</audio>-->
+<div class="pic"></div>
+<div class="text">
+    <span class="text-info">宝贝儿生日快乐～～～</span>
+</div>
+<div class="content" id="rose">
+
+</div>
+</body>
+<script src="static/libs/jquery.min.js"></script>
+<script src="static/libs/echarts.min.js"></script>
+<script src="static/libs/echarts-gl.min.js"></script>
+<script>
+    function initMusic() {
+        var audio = document.createElement('audio');
+        audio.setAttribute('id', 'audio');
+        audio.setAttribute('autoplay', 'autoplay');
+        audio.setAttribute('loop', 'loop');
+        audio.innerHTML = '<source src="static/mp3/LoveStory.mp3" type="audio/mpeg">';
+        document.body.appendChild(audio);
+        audio.load();
+        $(window).hover(function (){
+            audio.play();
+        })
+        setTimeout(function (){
+           $(window).hover()
+        },1)
+        document.addEventListener("WeixinJSBridgeReady", function() {
+            document.getElementById('audio').play();
+        }, false);
+    }
+    window.onload = function() {
+        initMusic();
+    };
+
+    var sin = Math.sin;
+    var cos = Math.cos;
+    var pow = Math.pow;
+    var sqrt = Math.sqrt;
+    var cosh = Math.cosh;
+    var sinh = Math.sinh;
+    var exp = Math.exp;
+    var PI = Math.PI;
+    var square = function (x) {
+        return x*x;
+    }
+    var mod2 = function (a, b) {
+        var c = a % b;
+        return c > 0 ? c : (c + b);
+    }
+
+    var theta1 = -(20/9) * PI;
+    var theta2 = 15 * PI;
+    function getParametricEquation() {
+        return {
+            u: {
+                min: 0,
+                max: 1,
+                step: 1 / 24
+            },
+            v: {
+                min: theta1,
+                max: theta2,
+                step: (theta2 - theta1) / 575
+            },
+            x: function (x1, theta) {
+                var phi = (PI/2)*exp(-theta/(8*PI));
+                var y1 = 1.9565284531299512*square(x1)*square(1.2768869870150188*x1-1)*sin(phi);
+                var X = 1-square(1.25*square(1-mod2((3.6*theta),(2*PI))/PI)-0.25)/2;
+                var r = X*(x1*sin(phi)+y1*cos(phi));
+                return r * sin(theta);
+            },
+            y: function (x1, theta) {
+                var phi = (PI/2)*exp(-theta/(8*PI));
+                var y1 = 1.9565284531299512*square(x1)*square(1.2768869870150188*x1-1)*sin(phi);
+                var X = 1-square(1.25*square(1-mod2((3.6*theta),(2*PI))/PI)-0.25)/2;
+                var r = X*(x1*sin(phi)+y1*cos(phi));
+                return r * cos(theta);
+            },
+            z: function (x1, theta) {
+                var phi = (PI/2)*exp(-theta/(8*PI));
+                var y1 = 1.9565284531299512*square(x1)*square(1.2768869870150188*x1-1)*sin(phi);
+                var X = 1-square(1.25*square(1-mod2((3.6*theta),(2*PI))/PI)-0.25)/2;
+                var r = X*(x1*sin(phi)+y1*cos(phi));
+                return X*(x1*cos(phi)-y1*sin(phi));
+            }
+        };
+    }
+    option = {
+        xAxis3D: {
+            type: 'value'
+        },
+        yAxis3D: {
+            type: 'value'
+        },
+        zAxis3D: {
+            type: 'value'
+        },
+        grid3D: {
+
+            show: false,
+
+            axisPointer: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#fbfb09'
+                }
+            },
+            postEffect: {
+                enable: true,
+                SSAO: {
+                    enable: true,
+                    radius: 10,
+                    intensity: 2
+                },
+                edge: {
+                    enable: true
+                }
+            },
+            temporalSuperSampling: {
+                enable: true
+            },
+            light: {
+                main: {
+                    intensity: 3,
+                    shadow: true,
+                },
+                ambient: {
+                    intensity: 0
+                },
+                ambientCubemap: {
+                    texture:  + 'static/img/canyon.hdr',
+                    exposure: 0,
+                    diffuseIntensity: 1,
+                    specularIntensity: 0.5
+                }
+            },
+            viewControl: {
+                // projection: 'orthographic'
+            }
+        },
+        series: [{
+            type: 'surface',
+            parametric: true,
+            shading: 'realistic',
+            silent: true,
+            wireframe: {
+                show: false
+            },
+            realisticMaterial: {
+                roughness: 0.7,
+                metalness: 0,
+                textureTiling: [200, 20]
+            },
+            itemStyle: {
+                color: '#c60404'
+            },
+            parametricEquation: getParametricEquation()
+        }]
+    };
+    var chart = echarts.init(document.getElementById('rose'));
+    chart.setOption(option)
+</script>
+</html>
