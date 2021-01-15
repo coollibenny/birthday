@@ -3,46 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>Title</title>
+    <title></title>
+    <link rel="stylesheet" href="static/css/index.css">
 </head>
 <style>
-    html,body{
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(to bottom,#cad4e5,#dfd9e2);
-    }
-    .content{
-        width: 100%;
-        height: 100%;
-    }
-    .pic{
-        position: absolute;
-        left: 54px;
-        top: 70px;
-        width: 125px;
-        height: 150px;
-        background-image: url("static/img/pic1.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    .text{
-        position: absolute;
-        font-size: 12px;
-        left: 111px;
-        top: 10px;
-        width: 81.25px;
-        height: 75px;
-        background-image: url("static/img/text.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-    .text-info{
-        display: inline-block;
-        margin-top: 15px;
-        margin-left: 10px;
-        width: 60px;
-    }
+
 </style>
 <body>
 <!--<audio src="mp3/LoveStory.mp3" autoplay="autoplay">暂不支持</audio>-->
@@ -50,14 +15,40 @@
 <div class="text">
     <span class="text-info">宝贝儿生日快乐～～～</span>
 </div>
-<div class="content" id="rose">
-
+<div id="loveHeart">
+    <canvas id="garden"></canvas>
 </div>
+<div class="content" id="rose"></div>
 </body>
 <script src="static/libs/jquery.min.js"></script>
 <script src="static/libs/echarts.min.js"></script>
 <script src="static/libs/echarts-gl.min.js"></script>
+<script src="static/js/garden.js"></script>
+<script src="static/js/functions.js"></script>
 <script>
+    var offsetX = $("#loveHeart").width() / 2;
+    var offsetY = $("#loveHeart").height() / 2 - 55;
+
+
+    if (!document.createElement('canvas').getContext) {
+        var msg = document.createElement("div");
+        msg.id = "errorMsg";
+        msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+";
+        document.body.appendChild(msg);
+        $("#code").css("display", "none")
+        $("#copyright").css("position", "absolute");
+        $("#copyright").css("bottom", "10px");
+        document.execCommand("stop");
+    } else {
+        setTimeout(function () {
+            startHeartAnimation();
+        }, 2000);
+
+        adjustCodePosition();
+        $("#code").typewriter();
+    }
+
+
     function initMusic() {
         var audio = document.createElement('audio');
         audio.setAttribute('id', 'audio');
@@ -208,6 +199,8 @@
         }]
     };
     var chart = echarts.init(document.getElementById('rose'));
-    chart.setOption(option)
+    setTimeout(function (){
+        chart.setOption(option)
+    },4000)
 </script>
 </html>

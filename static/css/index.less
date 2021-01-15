@@ -1,0 +1,62 @@
+
+*,
+*:before,
+*:after,
+*::before,
+*::after{
+  box-sizing: border-box;
+  margin: 0;
+}
+html,body{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom,#cad4e5,#dfd9e2);
+}
+.content{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+.pic{
+  position: absolute;
+  left: 54px;
+  top: 70px;
+  width: 125px;
+  height: 150px;
+  background-image: url("../img/pic1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.text{
+  position: absolute;
+  font-size: 12px;
+  left: 111px;
+  top: 10px;
+  width: 81.25px;
+  height: 75px;
+  background-image: url("../img/text.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.text-info{
+  display: inline-block;
+  margin-top: 15px;
+  margin-left: 10px;
+  width: 60px;
+}
+#loveHeart {
+  z-index: 1;
+  position: absolute;
+  left: -68px;
+  top: -157px;
+  width: 670px;
+  height: 625px;
+  transform: scale(0.2);
+}
+
+#garden {
+  width: 100%;
+  height: 100%;
+}
